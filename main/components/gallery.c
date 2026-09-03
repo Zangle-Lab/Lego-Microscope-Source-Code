@@ -6,14 +6,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define GRID_COLS 4
+#define GRID_COLS 3
 #define GRID_ROWS 2
 #define CELLS_PER_PAGE (GRID_COLS * GRID_ROWS)
 #define THUMB_W 64
 #define THUMB_H 64
 #define CELL_W 74
 #define CELL_H 88
-#define GRID_ORIGIN_X 8
+#define GRID_ORIGIN_X 49
 #define GRID_ORIGIN_Y 16
 
 /* ---- shared state between gallery + detail screens ---- */
@@ -144,8 +144,8 @@ static void gallery_on_enter(void) {
         .callback_ctx = NULL,
     };
 
-    prev_page_button = make_button(240, 192, 36, 36, "<", on_prev_page, NULL);
-    next_page_button = make_button(280, 192, 36, 36, ">", on_next_page, NULL);
+    prev_page_button = make_button(0, 60, 40, 120, "<", on_prev_page, NULL);
+    next_page_button = make_button(280, 60, 40, 120, ">", on_next_page, NULL);
 }
 
 static void gallery_on_exit(void) {
@@ -301,8 +301,37 @@ static void detail_render(void) {
     if (detail_cache_valid) {
         draw_greyscale_image(&detail_scratch, DETAIL_IMG_X, DETAIL_IMG_Y, DETAIL_IMG_W, DETAIL_IMG_H);
         char info[48];
-        snprintf(info, sizeof(info), "#%lu  mode %u  %ux%u",
-                 (unsigned long) selected_image_index, detail_cached_header.mode_id,
+
+        char* mode_label;
+        switch(detail_cached_header.mode_id) {
+            case DF_MODE:
+                mode_label = "DF";
+                break;
+            case BF_MODE:
+                mode_label = "BF";
+                break;
+            case QDF_MODE:
+                mode_label = "QDF";
+                break;
+            case DPC_LR_MODE:
+                mode_label = "DPC LR";
+                break;
+            case DPC_RL_MODE:
+                mode_label = "DPC RL";
+                break;
+            case DPC_TB_MODE:
+                mode_label = "DPC TB";
+                break;
+            case DPC_BT_MODE:
+                mode_label = "DPC BT";
+                break;
+            default:
+                mode_label = "UNK";
+                break;
+        }
+
+        snprintf(info, sizeof(info), "#%lu  mode %s  %ux%u",
+                 (unsigned long) selected_image_index, mode_label,
                  detail_cached_header.width, detail_cached_header.height);
         draw_text(10, 4, info, (rgb666_color_t){63, 63, 63}, 0);
     } else {
