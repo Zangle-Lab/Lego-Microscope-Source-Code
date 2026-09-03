@@ -3,9 +3,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /*width in px of images to be captured*/
 extern int capture_width;
@@ -29,7 +26,3 @@ void camera_return_frame(camera_fb_t *fb);
  * returns last captured frame
 */
 camera_fb_t* camera_get_last_frame(void);
-
-#ifdef __cplusplus
-}
-#endif

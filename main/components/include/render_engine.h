@@ -161,4 +161,4 @@ void draw_rect_bounds(int x0, int y0, int x1, int y1, rgb666_color_t color);
 */
 void draw_text(int x, int y, const char *str, rgb666_color_t color, int font);
 
-#endif RENDER_ENGINE_H
+#endif
